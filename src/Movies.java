@@ -1,16 +1,32 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Movies {
 
-    private final String movieID;
-    private final String title;
+    public final int movieID;
+    public final String title;
+    private final List<Ratings> moviesRatings;
 
-    public Movies(String movieID, String title)
-    {
-        this.movieID = movieID;
-        this.title = title;
+
+    public Movies(int movieID, String title) {
+            this.movieID = movieID;
+            this.title = title;
+            this.moviesRatings = new ArrayList<>();
     }
 
+    private int getMovieID(){
+        return this.movieID;
+    }
 
-    public String toString() {
-        return "Movie ID: " + movieID + "\n" + "Title: " + title + "\n";
+    private String getTitle(){
+        return this.title;
+    }
+
+    public void addRating(Ratings mr) {
+        this.moviesRatings.add(mr);
+    }
+
+    public List<Ratings> getMoviesRatings(){
+        return this.moviesRatings;
     }
 }

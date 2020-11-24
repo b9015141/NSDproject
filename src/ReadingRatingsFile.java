@@ -1,74 +1,66 @@
-
 import java.io.*;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadingRatingsFile{
+public class ReadingRatingsFile {
 
-    public static void main(String[] args) {
+   // public static void main(String[] args) {
 
+        public static List<Ratings> readRatings (File f){
 
-        List<Ratings> ratingsArray = new ArrayList<>();
-        try
-        {
-            // create a Buffered Reader object instance with a FileReader
-            BufferedReader brRating = new BufferedReader(new FileReader("ratings.dat"));
+            List<Ratings> ratings = new ArrayList<Ratings>();
 
-            // read the first line from the text file
-            String fileRead = brRating.readLine();
+            BufferedReader reader = null;
+            String line = null;
+            try {
+                reader = getFileReader(f);
+                while ((line = reader.readLine()) != null) {
+                    String[] token = parseLine(line);
+                    int userId = Integer.parseInt(token[0]);
+                    int movieId = Integer.parseInt(token[1]);
+                    int rating = Integer.parseInt(token[2]);
+                    ratings.add(new Ratings(userId, movieId, rating));
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
 
-            // loop until all lines are read
-            while (fileRead != null)
-            {
+            } finally {
+            }
+            // display movies
 
-                // use string.split to load a string array with the values from each line of
-                // the file, using a comma as the delimiter
-                String[] tokenize = fileRead.split(" ");
+            for (Ratings each : ratings) {
+                System.out.println("====================");
+                System.out.println(each.toString());
+                System.out.println();
 
-                //assume file is made correctly
-                // and make temporary variables for the three types of data
-                String tempUserID = tokenize[0];
-                String tempMovieID = tokenize[0];
-                String tempRatings = tokenize[0];
-
-
-                // create temporary instance of Inventory object
-                // and load with three data values
-                Ratings Rating = new Ratings(tempUserID, tempMovieID, tempRatings);
-
-                // add to array list
-                ratingsArray.add(Rating);
-
-                // read next line before looping
-                // if end of file reached
-                fileRead = brRating.readLine();
             }
 
-            // close file stream
-            brRating.close();
-        }
-
-        // handle exceptions
-        catch (FileNotFoundException fileNotFound)
-        {
-            System.out.println("file not found");
-        }
-
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-
-        // display movies
-        for (Ratings each : ratingsArray)
-        {
-            System.out.println("====================");
-            System.out.println(each);
-            System.out.println();
+            return ratings;
 
         }
+
+        private static String[] parseLine (String line){
+            // possible field delimiters: "::", "\t", "|"
+            return line.split("::|\t|\\|");
+        }
+
+    private static BufferedReader getFileReader (File f) throws FileNotFoundException {
+        return new BufferedReader(new FileReader(f));
 
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

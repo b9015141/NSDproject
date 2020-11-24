@@ -1,71 +1,66 @@
+import java.io.*;
+import java.util.*;
 
-        import java.io.*;
-        import java.io.FileNotFoundException;
-        import java.util.ArrayList;
-        import java.util.List;
-
-public class Solution {
+public class Solution{
 
     public static void main(String[] args) {
 
 
-        List<Movies> moviesArray = new ArrayList<>();
-        try
-        {
-            // create a Buffered Reader object instance with a FileReader
-            BufferedReader brMovie = new BufferedReader(new FileReader("movies.dat"));
+        System.out.println("Select and option: " + "\n");
+        System.out.println("------------- Please choose an option ------------------ " + "\n");
+        System.out.println("1. Display ratings: " + "\n");
+        System.out.println("2. Display movies: " + "\n");
+        System.out.println("3. Display users : " + "\n");
+        System.out.println("4. Display average ratings given by each user : " + "\n");
+        System.out.println("5. Display average ratings given to each movie: " + "\n");
+        System.out.println("6. Compare 2 users: " + "\n");
 
-            // read the first line from the text file
-            String fileRead = brMovie.readLine();
 
-            // loop until all lines are read
-            while (fileRead != null)
-            {
+        Scanner input = new Scanner(System.in);
 
-                // use string.split to load a string array with the values from each line of
-                // the file, using a comma as the delimiter
-                String[] tokenize = fileRead.split("\\|");
+        int choice = input.nextInt();
 
-                //assume file is made correctly
-                // and make temporary variables for the three types of data
-                String tempMovieID = tokenize[0];
-                String tempTitle = tokenize[1];
-
-                // create temporary instance of Inventory object
-                // and load with three data values
-                Movies Movie = new Movies(tempMovieID, tempTitle);
-
-                // add to array list
-                moviesArray.add(Movie);
-
-                // read next line before looping
-                // if end of file reached
-                fileRead = brMovie.readLine();
+        switch (choice) {
+            case 1: {
+                ReadingRatingsFile read = new ReadingRatingsFile();
+                read.readRatings(new File("ratings.dat"));
+                break;
             }
 
-            // close file stream
-            brMovie.close();
+            case 2: {
+                ReadingUsersFile read = new ReadingUsersFile();
+                read.getHashMapFromTextFile();
+                break;
+            }
+
+            case 3: {
+                ReadingMoviesFile read = new ReadingMoviesFile();
+                read.getHashMapFromTextFile();
+                break;
+            }
+            case 4: {
+
+                break;
+            }
+            case 5: {
+                System.out.println("Choose a MovieID: ");
+
+                int searchMovieID = 0;
+
+                Scanner reader = new Scanner(System.in);
+                searchMovieID = reader.nextInt();
+
+                ReadingRatingsFile read = new ReadingRatingsFile();
+                read.readRatings(new File("ratings.dat"));
+
+                break;
+            }
+
         }
-
-        // handle exceptions
-        catch (FileNotFoundException fileNotFound)
-        {
-            System.out.println("file not found");
-        }
-
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-
-        // display movies
-        for (Movies each : moviesArray)
-        {
-            System.out.println("====================");
-            System.out.println(each);
-            System.out.println();
-
-        }
-
     }
-}
+    }
+
+
+
+
+
