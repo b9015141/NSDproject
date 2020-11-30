@@ -22,11 +22,10 @@ public class Users {
       return userID;
    }
 
-   public void addRating(Ratings mr) {
-      this.ratingsByUser.add(mr);
+   @Override
+   public String toString() {
+      return "UserID: " + this.getUserID();
    }
-
-  public List<Ratings> getUsersRatings(){
-      return this.ratingsByUser;
-  }
 }
+
+

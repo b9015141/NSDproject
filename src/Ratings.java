@@ -25,12 +25,11 @@ public class Ratings {
         return this.ratings;
     }
 
+
+    //toString (overridden) method to show data of the file
     @Override
     public String toString() {
-        return "{"
-                + " UserID='" + userID  + '\''
-                + ", MovieID='" + movieID + '\''
-                + ", Ratings='" + ratings + '\'' + '}';
+        return  "UserID: " + this.getUserID() + "\n" + "MovieID: " + this.movieID + "\n" + "Rating: " + this.ratings;
     }
 }
 

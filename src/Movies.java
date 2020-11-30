@@ -1,5 +1,7 @@
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Movies {
 
@@ -9,24 +11,22 @@ public class Movies {
 
 
     public Movies(int movieID, String title) {
-            this.movieID = movieID;
-            this.title = title;
-            this.moviesRatings = new ArrayList<>();
+        this.movieID = movieID;
+        this.title = title;
+        this.moviesRatings = new ArrayList<>();
     }
 
-    private int getMovieID(){
+    public int getMovieID(){
         return this.movieID;
     }
 
-    private String getTitle(){
+    public String getTitle(){
         return this.title;
     }
 
-    public void addRating(Ratings mr) {
-        this.moviesRatings.add(mr);
+    @Override
+    public String toString() {
+        return "MovieID: " + this.getMovieID() + "\n" + "Title: " + this.getTitle();
     }
 
-    public List<Ratings> getMoviesRatings(){
-        return this.moviesRatings;
-    }
 }

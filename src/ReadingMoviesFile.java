@@ -1,69 +1,55 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.HashMap;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ReadingMoviesFile {
 
 
-    final static String filePath = "movies.dat";
+    public static List<Movies> readMovies (File f) {
 
+        List<Movies> movies = new ArrayList<Movies>();
 
-    public static void main(String[] args) {
+        BufferedReader reader = null;
+        String line = null;
 
-        //read text file to HashMap
-        Map<Integer, String> mapFromFile = getHashMapFromTextFile();
+        try {
+            reader = getFileReader(f);
+            while ((line = reader.readLine()) != null) {
+                String[] token = parseLine(line);
+                int movieID = Integer.parseInt(token[0]);
+                String title = token[1];
+                movies.add(new Movies(movieID, title));
+            }
 
-        //iterate over HashMap entries
-        for(Map.Entry<Integer, String> entry : mapFromFile.entrySet()){
-            System.out.println( entry.getKey() + " => " + entry.getValue() );
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+
+        } finally {
         }
+
+        return movies;
+
     }
 
-    public static Map<Integer, String> getHashMapFromTextFile(){
+    private static String[] parseLine (String line){
+        // possible field delimiters: "::", "\t", "|"
+        return line.split("::|\t|\\|");
+    }
 
-        Map<Integer, String> mapFileContents = new HashMap<Integer, String>();
-        BufferedReader br = null;
+    private static BufferedReader getFileReader (File f) throws FileNotFoundException {
+        return new BufferedReader(new FileReader(f));
 
-        try{
+    }
 
-            //create file object
-            File file = new File(filePath);
+    public void moviesList(Map<Integer, String> moviesData){
 
-            //create BufferedReader object from the File
-            br = new BufferedReader( new FileReader(file) );
-
-            String line = null;
-
-            //read file line by line
-            while ( (line = br.readLine()) != null ){
-
-                //split the line by :
-                String[] parts = line.split("\\|");
-
-                //first part is movieID, second is title
-                Integer movieID = Integer.parseInt( parts[0].trim() );
-                String title = parts[1].trim();
-
-
-                //put movieID, tittle in HashMap if they are not empty
-                if(  !movieID.equals("") && !title.equals("") )
-                    mapFileContents.put(movieID, title);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally{
-
-            // close the BufferedReader
-            if(br != null){
-                try {
-                    br.close();
-                }catch(Exception e){};
-            }
+        for (Integer i : moviesData.keySet())
+        {
+            System.out.println("Movie ID " + i + "Title " + moviesData.get(i));
         }
-
-        return mapFileContents;
     }
 }
